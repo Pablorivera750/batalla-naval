@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BATALLA RIVERA GARCIA</title>
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="ocean-bg">
+    <div class="wave"></div>
+    <div class="wave wave--2"></div>
+  </div>
+
+  <main class="lobby-container">
+    <!-- Título -->
+    <header class="title-header">
+      <div class="ship-icon">🚢</div>
+      <h1 class="game-title">BATALLA<br><span>RIVERA GARCIA</span></h1>
+      <p class="game-subtitle">Multijugador en tiempo real</p>
+    </header>
+
+    <!-- Pantalla de inicio -->
+    <section id="screen-home" class="screen active">
+      <div class="card">
+        <button id="btn-create" class="btn btn--primary btn--large">
+          <span class="btn-icon">⚓</span>
+          Crear Partida
+        </button>
+        <div class="divider">— o —</div>
+        <button id="btn-join-show" class="btn btn--secondary btn--large">
+          <span class="btn-icon">🔭</span>
+          Unirse a Partida
+        </button>
+      </div>
+    </section>
+
+    <!-- Formulario: Crear sala -->
+    <section id="screen-create" class="screen">
+      <div class="card">
+        <h2 class="card-title">⚓ Nueva Partida</h2>
+        <div class="form-group">
+          <label for="input-nick-create">Tu nombre (Nick)</label>
+          <input
+            type="text"
+            id="input-nick-create"
+            class="input"
+            placeholder="Ej: Almirante Jack"
+            maxlength="20"
+            autocomplete="off"
+          />
+        </div>
+        <div id="error-create" class="error-msg hidden"></div>
+        <div class="form-actions">
+          <button id="btn-back-create" class="btn btn--ghost">← Volver</button>
+          <button id="btn-do-create" class="btn btn--primary">Crear Sala</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Formulario: Unirse a sala -->
+    <section id="screen-join" class="screen">
+      <div class="card">
+        <h2 class="card-title">🔭 Unirse a Partida</h2>
+        <div class="form-group">
+          <label for="input-nick-join">Tu nombre (Nick)</label>
+          <input
+            type="text"
+            id="input-nick-join"
+            class="input"
+            placeholder="Ej: Capitán Morgan"
+            maxlength="20"
+            autocomplete="off"
+          />
+        </div>
+        <div class="form-group">
+          <label for="input-room-code">Código de Sala</label>
+          <input
+            type="text"
+            id="input-room-code"
+            class="input input--code"
+            placeholder="Ej: AB3K7X"
+            maxlength="6"
+            autocomplete="off"
+          />
+        </div>
+        <div id="error-join" class="error-msg hidden"></div>
+        <div class="form-actions">
+          <button id="btn-back-join" class="btn btn--ghost">← Volver</button>
+          <button id="btn-do-join" class="btn btn--primary">Unirse</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sala de espera (Lobby) -->
+    <section id="screen-lobby" class="screen">
+      <div class="card card--wide">
+        <h2 class="card-title">🏴‍☠️ Sala de Espera</h2>
+
+        <div class="room-code-display">
+          <span class="room-code-label">Código de sala:</span>
+          <span id="lobby-room-code" class="room-code-value">———</span>
+          <button id="btn-copy-code" class="btn btn--ghost btn--small" title="Copiar código">📋</button>
+        </div>
+
+        <div class="players-section">
+          <h3 class="section-title">Jugadores (<span id="lobby-player-count">0</span>)</h3>
+          <ul id="lobby-player-list" class="player-list"></ul>
+        </div>
+
+        <div id="lobby-events" class="event-log"></div>
+
+        <div id="host-controls" class="host-controls hidden">
+          <p class="host-tip">Como host, tú decides cuándo empezar la partida.</p>
+          <button id="btn-start-game" class="btn btn--primary btn--large" disabled>
+            Iniciar Partida (mín. 2 jugadores)
+          </button>
+        </div>
+        <div id="guest-waiting" class="guest-waiting hidden">
+          <div class="spinner"></div>
+          <p>Esperando que el host inicie la partida…</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/lobby.js"></script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BATALLA RIVERA GARCIA — En Juego</title>
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/game.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet" />
+</head>
+<body class="game-body">
+
+  <!-- ── Barra superior ─────────────────────────────────────── -->
+  <header class="game-header">
+    <div class="game-header__brand">🚢 <span>BATALLA RIVERA GARCIA</span></div>
+    <div class="game-header__info">
+      <span id="header-room">Sala: —</span>
+      <span id="header-nick">—</span>
+      <span id="header-turn" class="turn-badge hidden">Tu turno</span>
+    </div>
+    <button id="btn-mute" class="btn btn--ghost btn--small" title="Silenciar sonido">🔊</button>
+  <button id="btn-leave" class="btn btn--ghost btn--small">Salir</button>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════════════
+       FASE 1: POSICIONAMIENTO
+  ══════════════════════════════════════════════════════════ -->
+  <div id="phase-placement" class="phase hidden">
+    <div class="placement-layout">
+
+      <!-- Panel izquierdo: flota disponible -->
+      <aside class="fleet-panel">
+        <h2 class="panel-title">Tu Flota</h2>
+        <p class="panel-hint">Haz clic en una nave para seleccionarla, luego haz clic en el tablero para colocarla.</p>
+
+        <div id="fleet-list" class="fleet-list"></div>
+
+        <div class="placement-controls">
+          <button id="btn-rotate" class="btn btn--secondary">
+            🔄 Rotar (<span id="rotation-label">Horizontal</span>)
+          </button>
+          <button id="btn-clear-ships" class="btn btn--ghost">🗑 Limpiar todo</button>
+        </div>
+
+        <button id="btn-ready" class="btn btn--primary btn--large" disabled>
+          ✅ ¡Listo para combatir!
+        </button>
+
+        <div id="placement-status" class="placement-status"></div>
+      </aside>
+
+      <!-- Centro: tablero propio para posicionar -->
+      <div class="placement-board-wrapper">
+        <h2 class="panel-title">Tu Tablero</h2>
+        <div id="placement-board" class="board board--placement"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       FASE 2: BATALLA
+  ══════════════════════════════════════════════════════════ -->
+  <div id="phase-game" class="phase hidden">
+    <div class="game-layout">
+
+      <!-- Columna izquierda: tablero propio + chat -->
+      <div class="game-left-col">
+
+        <section class="own-board-section">
+          <h3 class="section-title">Tu Tablero
+            <span id="own-ships-left" class="ships-counter"></span>
+          </h3>
+          <div id="own-board" class="board board--own"></div>
+        </section>
+
+        <!-- Chat / historial de eventos -->
+        <section class="chat-section">
+          <h3 class="section-title">📡 Registro de Batalla</h3>
+          <div id="event-log" class="event-log event-log--game"></div>
+          <div class="chat-input-row">
+            <input
+              type="text"
+              id="chat-input"
+              class="input"
+              placeholder="Escribe un mensaje…"
+              maxlength="200"
+              autocomplete="off"
+            />
+            <button id="btn-chat-send" class="btn btn--primary btn--small">Enviar</button>
+          </div>
+        </section>
+      </div>
+
+      <!-- Columna derecha: tableros enemigos -->
+      <div class="game-right-col">
+        <h3 class="section-title">⚔️ Tableros Enemigos</h3>
+        <div id="enemy-boards-container" class="enemy-boards-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       PANTALLA: FIN DE PARTIDA
+  ══════════════════════════════════════════════════════════ -->
+  <div id="screen-gameover" class="phase gameover-overlay hidden">
+    <div class="gameover-card">
+      <div id="gameover-icon" class="gameover-icon">🏆</div>
+      <h2 id="gameover-title" class="gameover-title">¡Fin de la Batalla!</h2>
+      <p id="gameover-message" class="gameover-message"></p>
+      <button id="btn-gameover-home" class="btn btn--primary btn--large">Volver al Inicio</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       PANTALLA: CARGANDO / ESPERANDO
+  ══════════════════════════════════════════════════════════ -->
+  <div id="screen-waiting" class="phase waiting-overlay">
+    <div class="waiting-card">
+      <div class="spinner spinner--large"></div>
+      <p id="waiting-message">Conectando…</p>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/sounds.js"></script>
+  <script src="js/placement.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

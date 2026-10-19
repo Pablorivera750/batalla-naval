@@ -1,0 +1,613 @@
+/* ═══════════════════════════════════════════════
+   BATALLA NAVAL — Estilos del Juego
+   ═══════════════════════════════════════════════ */
+
+/* ─── Layout general del juego ───────────────────── */
+.game-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #050d1a 0%, #0a1f3d 100%);
+}
+
+/* ─── Header de partida ──────────────────────────── */
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1.5rem;
+  background: rgba(5, 13, 26, 0.95);
+  border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-shrink: 0;
+  gap: 1rem;
+}
+
+.game-header__brand {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+
+.game-header__info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.turn-badge {
+  background: linear-gradient(135deg, var(--color-accent), #0099bb);
+  color: var(--color-ocean-deep);
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 6px rgba(0,212,255,0.5); }
+  50%       { box-shadow: 0 0 16px rgba(0,212,255,0.9); }
+}
+
+/* ─── Fases ──────────────────────────────────────── */
+.phase {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+/* ═══════════════════════════════════════════════════
+   FASE DE POSICIONAMIENTO
+═══════════════════════════════════════════════════ */
+.placement-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* ─── Panel de flota ─────────────────────────────── */
+.fleet-panel {
+  background: rgba(10, 31, 61, 0.85);
+  border: 1px solid rgba(0,212,255,0.2);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.panel-hint {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  text-align: center;
+}
+
+.fleet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fleet-ship-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255,255,255,0.04);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.fleet-ship-item:hover:not(.placed):not(.selected) {
+  background: rgba(0,212,255,0.08);
+  border-color: rgba(0,212,255,0.3);
+}
+
+.fleet-ship-item.selected {
+  border-color: var(--color-accent);
+  background: rgba(0,212,255,0.15);
+  box-shadow: 0 0 10px rgba(0,212,255,0.3);
+}
+
+.fleet-ship-item.placed {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.fleet-ship-cells {
+  display: flex;
+  gap: 3px;
+}
+
+.fleet-ship-cell {
+  width: 18px;
+  height: 18px;
+  background: var(--color-accent);
+  border-radius: 3px;
+  opacity: 0.85;
+}
+
+.fleet-ship-label {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  flex: 1;
+}
+
+.fleet-ship-count {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  color: var(--color-gold);
+}
+
+.placement-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.placement-status {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  min-height: 1.2em;
+}
+
+/* ─── Tablero ─────────────────────────────────────── */
+.placement-board-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: 24px repeat(10, 1fr);
+  grid-template-rows: 24px repeat(10, 1fr);
+  gap: 2px;
+  user-select: none;
+}
+
+/* Etiquetas de columna (A-J) */
+.board__col-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  color: var(--color-text-muted);
+}
+
+/* Etiquetas de fila (1-10) */
+.board__row-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  color: var(--color-text-muted);
+}
+
+/* Celda de esquina vacía */
+.board__corner {
+  /* vacío */
+}
+
+/* Celdas del tablero */
+.board__cell {
+  aspect-ratio: 1;
+  min-width: 28px;
+  min-height: 28px;
+  background: rgba(0, 80, 140, 0.4);
+  border: 1px solid rgba(0, 150, 200, 0.2);
+  border-radius: 3px;
+  transition: background 0.15s, transform 0.1s;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Estados de celda ── */
+.board__cell--ship {
+  background: linear-gradient(135deg, #1a5a8a, #0d3d62);
+  border-color: rgba(0,212,255,0.5);
+}
+
+.board__cell--preview {
+  background: rgba(0, 212, 255, 0.3);
+  border-color: var(--color-accent);
+}
+
+.board__cell--preview-invalid {
+  background: rgba(255, 68, 68, 0.35);
+  border-color: var(--color-danger);
+}
+
+.board__cell--miss {
+  background: rgba(30, 80, 120, 0.5);
+}
+
+.board__cell--miss::after {
+  content: '·';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: rgba(150, 200, 240, 0.7);
+}
+
+.board__cell--hit {
+  background: radial-gradient(circle, #ff6600 0%, #cc3300 60%, #800000 100%);
+  border-color: #ff4400;
+}
+
+.board__cell--hit::after {
+  content: '💥';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.board__cell--sunk {
+  background: radial-gradient(circle, #555 0%, #222 100%);
+  border-color: #888;
+}
+
+.board__cell--sunk::after {
+  content: '✕';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bbb;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* Tablero en fase de posicionamiento: hover interactivo */
+.board--placement .board__cell:not(.board__cell--ship):hover {
+  background: rgba(0, 212, 255, 0.15);
+  cursor: crosshair;
+}
+
+.board--placement .board__cell--ship:hover {
+  cursor: pointer;
+  filter: brightness(1.2);
+}
+
+/* Tablero enemigo: celdas con tono diferenciado (verde-marino oscuro) */
+.board--enemy .board__cell {
+  background: rgba(0, 50, 60, 0.55);
+  border-color: rgba(0, 40, 50, 0.4);
+  border-radius: 0;
+  min-width: 0;    /* permite que las celdas se compriman dentro del contenedor */
+  min-height: 0;
+}
+
+/* En tableros enemigos el borde redondeado de la carta tampoco aplica a celdas */
+.enemy-board-card .board__cell {
+  border-radius: 0;
+}
+/* Labels también se comprimen */
+.enemy-board-card .board__col-label,
+.enemy-board-card .board__row-label {
+  font-size: 0.55rem;
+  min-width: 0;
+}
+
+/* Tablero enemigo: hover para disparar */
+.board--enemy .board__cell:not(.board__cell--hit):not(.board__cell--miss):not(.board__cell--sunk):hover {
+  background: rgba(255, 200, 0, 0.2);
+  cursor: crosshair;
+  border-color: rgba(255, 200, 0, 0.45);
+}
+
+.board--enemy.board--not-turn .board__cell {
+  cursor: not-allowed;
+}
+
+/* ─── Animación de impacto ───────────────────────── */
+@keyframes hit-flash {
+  0%   { transform: scale(1.3); }
+  50%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+.board__cell--hit-new {
+  animation: hit-flash 0.35s ease-out forwards;
+}
+
+/* ═══════════════════════════════════════════════════
+   FASE DE BATALLA
+═══════════════════════════════════════════════════ */
+.game-layout {
+  display: grid;
+  grid-template-columns: minmax(300px, 380px) 1fr;
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  height: 100%;
+}
+
+/* ─── Columna izquierda ──────────────────────────── */
+.game-left-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.own-board-section,
+.chat-section {
+  background: rgba(10, 31, 61, 0.85);
+  border: 1px solid rgba(0,212,255,0.15);
+  border-radius: var(--radius-lg);
+  padding: 1.2rem;
+}
+
+.ships-counter {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-weight: 400;
+  margin-left: 0.5rem;
+}
+
+/* ─── Tablero propio (fase juego) ────────────────── */
+#own-board {
+  margin: 0 auto;
+}
+
+/* ─── Chat ───────────────────────────────────────── */
+.chat-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 0;
+}
+
+.event-log--game {
+  flex: 1;
+  max-height: 220px;
+  font-size: 0.78rem;
+}
+
+.event-log--game .event-log__entry--hit   { color: #ff9966; }
+.event-log--game .event-log__entry--sunk  { color: var(--color-danger); font-weight: 600; }
+.event-log--game .event-log__entry--miss  { color: var(--color-text-muted); }
+.event-log--game .event-log__entry--chat  { color: var(--color-text); font-style: italic; }
+
+.chat-input-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chat-input-row .input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+/* ─── Tableros enemigos ──────────────────────────── */
+.game-right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+}
+
+.enemy-boards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+/* Carta de tablero enemigo */
+.enemy-board-card {
+  background: rgba(4, 20, 48, 0.92);
+  border: 2px solid rgba(0, 180, 220, 0.2);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  overflow: hidden;      /* evita que el tablero desborde las esquinas */
+  min-width: 0;          /* permite que flex/grid comprima la carta */
+}
+
+/* El tablero dentro de la carta no debe sobrepasar el ancho disponible */
+.enemy-board-card .board {
+  width: 100%;
+  overflow: hidden;
+}
+
+.enemy-board-card.active-target {
+  border-color: rgba(255, 200, 0, 0.55);
+  box-shadow: 0 0 18px rgba(255, 200, 0, 0.18);
+}
+
+.enemy-board-card.eliminated {
+  opacity: 0.4;
+  filter: grayscale(0.8);
+}
+
+.enemy-board-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.enemy-nick {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: var(--color-text);
+}
+
+.enemy-status {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+}
+
+.enemy-status--alive {
+  background: rgba(0,230,118,0.15);
+  color: var(--color-success);
+  border: 1px solid rgba(0,230,118,0.3);
+}
+
+.enemy-status--eliminated {
+  background: rgba(255,68,68,0.15);
+  color: var(--color-danger);
+  border: 1px solid rgba(255,68,68,0.3);
+}
+
+.enemy-ships-sunk {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+
+/* ─── Overlay: fin de partida ────────────────────── */
+.gameover-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 13, 26, 0.92);
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  backdrop-filter: blur(6px);
+}
+
+.gameover-overlay.hidden {
+  display: none !important;
+}
+
+.gameover-card {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: 3rem 2.5rem;
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: var(--shadow-glow);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.gameover-icon {
+  font-size: 4rem;
+  animation: float 2s ease-in-out infinite;
+}
+
+.gameover-title {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--color-gold);
+  text-shadow: 0 0 15px rgba(255,215,0,0.5);
+}
+
+.gameover-message {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ─── Overlay: esperando ─────────────────────────── */
+.waiting-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 13, 26, 0.88);
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  z-index: 150;
+  backdrop-filter: blur(4px);
+}
+
+.waiting-overlay.hidden {
+  display: none !important;
+}
+
+.waiting-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .placement-layout {
+    grid-template-columns: 1fr;
+  }
+  .fleet-panel {
+    order: 2;
+  }
+  .placement-board-wrapper {
+    order: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .game-layout {
+    grid-template-columns: 1fr;
+  }
+  .game-right-col {
+    overflow-y: visible;
+  }
+  .board__cell {
+    min-width: 22px;
+    min-height: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .phase {
+    padding: 0.75rem;
+  }
+  .board__cell {
+    min-width: 18px;
+    min-height: 18px;
+  }
+  .game-header__brand {
+    display: none;
+  }
+  .enemy-boards-grid {
+    grid-template-columns: 1fr;
+  }
+}

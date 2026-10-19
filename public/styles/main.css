@@ -1,0 +1,446 @@
+/* ═══════════════════════════════════════════════
+   BATALLA NAVAL — Estilos Generales
+   ═══════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --color-ocean-deep:   #050d1a;
+  --color-ocean-mid:    #0a1f3d;
+  --color-ocean-light:  #0e2d5c;
+  --color-ocean-bright: #1a4a7a;
+  --color-accent:       #00d4ff;
+  --color-accent-hover: #33dfff;
+  --color-gold:         #ffd700;
+  --color-danger:       #ff4444;
+  --color-success:      #00e676;
+  --color-text:         #e8f4fd;
+  --color-text-muted:   #7ab3d4;
+  --color-card-bg:      rgba(10, 31, 61, 0.92);
+  --color-card-border:  rgba(0, 212, 255, 0.25);
+  --radius-md:          12px;
+  --radius-lg:          20px;
+  --shadow-glow:        0 0 20px rgba(0, 212, 255, 0.3);
+  --font-display:       'Orbitron', monospace;
+  --font-body:          'Exo 2', sans-serif;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background-color: var(--color-ocean-deep);
+  overflow-x: hidden;
+}
+
+/* ─── Fondo animado ──────────────────────────────── */
+.ocean-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(180deg, var(--color-ocean-deep) 0%, var(--color-ocean-mid) 60%, var(--color-ocean-light) 100%);
+  overflow: hidden;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: -100%;
+  width: 300%;
+  height: 120px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'%3E%3Cpath d='M0,60 C200,120 400,0 600,60 C800,120 1000,0 1200,60 L1200,120 L0,120 Z' fill='%230e2d5c' fill-opacity='0.4'/%3E%3C/svg%3E") repeat-x;
+  background-size: 600px 100%;
+  animation: wave-anim 8s linear infinite;
+  opacity: 0.6;
+}
+.wave--2 {
+  height: 80px;
+  animation-duration: 12s;
+  animation-direction: reverse;
+  opacity: 0.4;
+  bottom: 10px;
+}
+
+@keyframes wave-anim {
+  from { transform: translateX(0); }
+  to   { transform: translateX(50%); }
+}
+
+/* ─── Lobby Container ────────────────────────────── */
+.lobby-container {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  gap: 1.5rem;
+}
+
+/* ─── Título ─────────────────────────────────────── */
+.title-header {
+  text-align: center;
+}
+
+.ship-icon {
+  font-size: 3.5rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+.game-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--color-text);
+  text-shadow: 0 0 30px rgba(0, 212, 255, 0.6), 0 2px 10px rgba(0,0,0,0.8);
+}
+
+.game-title span {
+  color: var(--color-accent);
+}
+
+.game-subtitle {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+/* ─── Pantallas ──────────────────────────────────── */
+.screen {
+  display: none;
+  width: 100%;
+  max-width: 480px;
+}
+
+.screen.active {
+  display: block;
+}
+
+/* ─── Cards ──────────────────────────────────────── */
+.card {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-glow), 0 8px 32px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.card--wide {
+  max-width: 560px;
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--color-accent);
+  text-align: center;
+}
+
+/* ─── Botones ─────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, var(--color-accent), #0099bb);
+  color: var(--color-ocean-deep);
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+}
+.btn--primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--color-accent-hover), #00b8d9);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.6);
+}
+
+.btn--secondary {
+  background: rgba(0, 212, 255, 0.1);
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+}
+.btn--secondary:hover:not(:disabled) {
+  background: rgba(0, 212, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.btn--ghost:hover:not(:disabled) {
+  color: var(--color-text);
+  border-color: rgba(255,255,255,0.3);
+}
+
+.btn--large {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.btn--small {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.75rem;
+}
+
+.btn-icon {
+  font-size: 1.2em;
+}
+
+/* ─── Formularios ────────────────────────────────── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.input {
+  padding: 0.75rem 1rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.15);
+}
+
+.input--code {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: 0.3em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.form-actions .btn:last-child {
+  flex: 1;
+}
+
+.divider {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+/* ─── Mensajes de error ──────────────────────────── */
+.error-msg {
+  background: rgba(255, 68, 68, 0.15);
+  border: 1px solid rgba(255, 68, 68, 0.4);
+  color: #ff8080;
+  border-radius: var(--radius-md);
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ─── Lobby: código de sala ──────────────────────── */
+.room-code-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  border-radius: var(--radius-md);
+}
+
+.room-code-label {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.room-code-value {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-gold);
+  letter-spacing: 0.25em;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* ─── Lobby: lista de jugadores ──────────────────── */
+.section-title {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.players-section { display: flex; flex-direction: column; gap: 0.4rem; }
+
+.player-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.player-list__item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.8rem;
+  background: rgba(255,255,255,0.04);
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.9rem;
+}
+
+.player-list__item .player-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.player-list__item .player-name { flex: 1; font-weight: 600; }
+
+.player-list__item .player-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badge--host    { background: rgba(255, 215, 0, 0.2); color: var(--color-gold); border: 1px solid rgba(255,215,0,0.3); }
+.badge--ready   { background: rgba(0, 230, 118, 0.2); color: var(--color-success); border: 1px solid rgba(0,230,118,0.3); }
+.badge--waiting { background: rgba(255,255,255,0.08); color: var(--color-text-muted); border: 1px solid rgba(255,255,255,0.1); }
+
+/* ─── Event log ──────────────────────────────────── */
+.event-log {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  max-height: 120px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.event-log__entry {
+  padding: 0.15rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  line-height: 1.4;
+}
+
+.event-log__entry:last-child { border-bottom: none; }
+
+/* ─── Host controls ──────────────────────────────── */
+.host-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.host-tip {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.guest-waiting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+/* ─── Spinner ────────────────────────────────────── */
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(0, 212, 255, 0.2);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.spinner--large {
+  width: 56px;
+  height: 56px;
+  border-width: 5px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Responsivo ─────────────────────────────────── */
+@media (max-width: 480px) {
+  .card { padding: 1.5rem; }
+  .game-title { font-size: 3rem; }
+  .room-code-value { font-size: 1.4rem; letter-spacing: 0.15em; }
+}
